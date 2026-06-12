@@ -2,6 +2,8 @@
 
 A small local expense tracker built with Flask and SQLite.
 
+![Expense Manager demo](demo.png)
+
 ## What This Is
  Expense Manager is a simple personal expense tracker for local use. It lets you add, edit, delete, filter, and summarize expenses without any authentication or deployment setup.
 
