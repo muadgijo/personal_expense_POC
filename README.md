@@ -1,9 +1,9 @@
-# Riafy Expense Manager
+# Expense Manager
 
 A small local expense tracker built with Flask and SQLite.
 
 ## What This Is
- Riafy Expense Manager is a simple personal expense tracker for local use. It lets you add, edit, delete, filter, and summarize expenses without any authentication or deployment setup.
+ Expense Manager is a simple personal expense tracker for local use. It lets you add, edit, delete, filter, and summarize expenses without any authentication or deployment setup.
 
 ## Stack
 - Python 3.14
@@ -82,4 +82,4 @@ http://127.0.0.1:5000
 
 ## Notes
 - The app is intentionally simple.
-- The current product-style name is `Riafy Expense Manager`.
+- The current product-style name is `Expense Manager`.

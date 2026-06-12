@@ -255,11 +255,11 @@ def export_csv():
             'Yes' if e['recurring'] else 'No'
         ])
 
-    filename = f"paisa-expenses-{date.today().isoformat()}.csv"
+    filename = f"expense-manager-{date.today().isoformat()}.csv"
     return Response(
         output.getvalue(),
         mimetype='text/csv',
-           headers={'Content-Disposition': f'attachment; filename=riafy-expense-manager-{date.today().isoformat()}.csv'}
+           headers={'Content-Disposition': f'attachment; filename={filename}'}
     )
 
 
