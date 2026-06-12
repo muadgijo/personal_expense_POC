@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>All Expenses</h1>
+
+<div class="card">
+  <h2>Filter</h2>
+  <form method="GET" action="/">
+    <div class="filter-grid">
+      <div>
+        <label for="title_search">Title</label>
+        <input type="text" id="title_search" name="title_search"
+               placeholder="Search title…" value="{{ filters.title_search }}">
+      </div>
+      <div>
+        <label for="category">Category</label>
+        <select id="category" name="category">
+          <option value="">All categories</option>
+          {% for cat in categories %}
+            <option value="{{ cat }}" {% if filters.category == cat %}selected{% endif %}>
+              {{ icons[cat] }} {{ cat }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="date_from">From</label>
+        <input type="date" id="date_from" name="date_from" value="{{ filters.date_from }}">
+      </div>
+      <div>
+        <label for="date_to">To</label>
+        <input type="date" id="date_to" name="date_to" value="{{ filters.date_to }}">
+      </div>
+    </div>
+    <div class="filter-actions">
+      <button type="submit" class="btn btn-primary">Apply</button>
+      <a href="/" class="btn btn-secondary">Clear</a>
+    </div>
+  </form>
+</div>
+
+<div class="card">
+  {% if expenses %}
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Amount (₹)</th>
+        <th>Note</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for expense in expenses %}
+      <tr>
+        <td class="text-muted">{{ expense.date }}</td>
+        <td>
+          <strong>{{ expense.title }}</strong>
+          {% if expense.recurring %}<span title="Recurring" style="margin-left:4px;">🔁</span>{% endif %}
+        </td>
+        <td>
+          <span class="badge badge-{{ expense.category }}">
+            {{ icons[expense.category] }} {{ expense.category }}
+          </span>
+        </td>
+        <td class="amount">₹{{ "%.2f"|format(expense.amount) }}</td>
+        <td class="text-muted">{{ expense.note if expense.note and expense.note != 'None' else '—' }}</td>
+        <td style="white-space:nowrap;">
+          <a href="/edit/{{ expense.id }}" class="btn btn-secondary btn-sm">Edit</a>
+          <form method="POST" action="/delete/{{ expense.id }}" style="display:inline;"
+                onsubmit="return confirm('Delete this expense?')">
+            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr class="total-row">
+        <td colspan="3" style="text-align:right; color:var(--text-muted); font-size:0.78rem; text-transform:uppercase; letter-spacing:0.05em;">
+          {{ expenses|length }} expense{{ 's' if expenses|length != 1 else '' }}
+        </td>
+        <td class="amount">₹{{ "%.2f"|format(expenses|sum(attribute='amount')) }}</td>
+        <td colspan="2"></td>
+      </tr>
+    </tfoot>
+  </table>
+  {% else %}
+  <div class="empty-state">
+    No expenses found. <a href="/add">Add your first one →</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Paisa — Personal Expense Tracker</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #f5f7fa;
+      --surface:    #ffffff;
+      --border:     #e5e7eb;
+      --border2:    #f3f4f6;
+      --text:       #1a1a2e;
+      --text-muted: #6b7280;
+      --text-sub:   #9ca3af;
+      --nav-bg:     #1a1a2e;
+      --nav-text:   #cbd5e1;
+      --accent:     #e2b96f;
+      --accent-hov: #d4a555;
+      --btn-sec:    #e5e7eb;
+      --btn-sec-hov:#d1d5db;
+      --btn-sec-txt:#374151;
+      --danger-bg:  #fee2e2;
+      --danger-txt: #991b1b;
+      --success-bg: #d1fae5;
+      --success-txt:#065f46;
+      --success-bdr:#6ee7b7;
+      --hover-row:  #f9fafb;
+      --shadow:     0 1px 4px rgba(0,0,0,0.07);
+    }
+
+    [data-theme="dark"] {
+      --bg:         #0f0f17;
+      --surface:    #1c1c2e;
+      --border:     #2e2e45;
+      --border2:    #252538;
+      --text:       #e8e8f0;
+      --text-muted: #8b8ba8;
+      --text-sub:   #5c5c78;
+      --nav-bg:     #12121e;
+      --nav-text:   #8b8ba8;
+      --accent:     #e2b96f;
+      --accent-hov: #d4a555;
+      --btn-sec:    #2e2e45;
+      --btn-sec-hov:#3a3a55;
+      --btn-sec-txt:#c8c8e0;
+      --danger-bg:  #2d1515;
+      --danger-txt: #f87171;
+      --success-bg: #0d2318;
+      --success-txt:#4ade80;
+      --success-bdr:#166534;
+      --hover-row:  #22223a;
+      --shadow:     0 1px 4px rgba(0,0,0,0.3);
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    nav {
+      background: var(--nav-bg);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      height: 56px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav .brand {
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      margin-right: auto;
+    }
+
+    nav a {
+      color: var(--nav-text);
+      text-decoration: none;
+      font-size: 0.9rem;
+      padding: 4px 0;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    nav a:hover { color: #fff; border-bottom-color: var(--accent); }
+
+    .theme-toggle {
+      background: none;
+      border: 1.5px solid #2e2e45;
+      border-radius: 99px;
+      padding: 4px 12px;
+      color: var(--nav-text);
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+    .container { max-width: 980px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+    h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 1.5rem; }
+    h2 { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .flash-messages { margin-bottom: 1rem; }
+    .flash { padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 0.5rem; font-size: 0.9rem; }
+    .flash.success { background: var(--success-bg); color: var(--success-txt); border: 1px solid var(--success-bdr); }
+    .flash.error   { background: var(--danger-bg);  color: var(--danger-txt);  border: 1px solid var(--danger-txt); }
+
+    .card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--border);
+    }
+
+    label { display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 0.35rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      background: var(--bg);
+      color: var(--text);
+      transition: border-color 0.15s;
+      margin-bottom: 1rem;
+    }
+
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
+    textarea { resize: vertical; min-height: 80px; }
+
+    .btn {
+      display: inline-block;
+      padding: 0.55rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: background 0.15s;
+      font-family: inherit;
+    }
+
+    .btn-primary   { background: var(--accent);   color: #1a1a2e; }
+    .btn-primary:hover { background: var(--accent-hov); }
+    .btn-secondary { background: var(--btn-sec);  color: var(--btn-sec-txt); }
+    .btn-secondary:hover { background: var(--btn-sec-hov); }
+    .btn-danger    { background: var(--danger-bg); color: var(--danger-txt); }
+    .btn-danger:hover { opacity: 0.8; }
+    .btn-sm { padding: 0.3rem 0.75rem; font-size: 0.8rem; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th { text-align: left; padding: 0.6rem 0.75rem; border-bottom: 2px solid var(--border); color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    td { padding: 0.75rem 0.75rem; border-bottom: 1px solid var(--border2); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--hover-row); }
+
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 99px; font-size: 0.75rem; font-weight: 600; }
+    .badge-Food          { background: #d1fae5; color: #065f46; }
+    .badge-Transport     { background: #dbeafe; color: #1e40af; }
+    .badge-Shopping      { background: #ede9fe; color: #5b21b6; }
+    .badge-Bills         { background: #fee2e2; color: #991b1b; }
+    .badge-Entertainment { background: #fef3c7; color: #92400e; }
+    .badge-Other         { background: #f3f4f6; color: #374151; }
+
+    [data-theme="dark"] .badge-Food          { background: #064e3b; color: #6ee7b7; }
+    [data-theme="dark"] .badge-Transport     { background: #1e3a5f; color: #93c5fd; }
+    [data-theme="dark"] .badge-Shopping      { background: #3b1f6e; color: #c4b5fd; }
+    [data-theme="dark"] .badge-Bills         { background: #450a0a; color: #fca5a5; }
+    [data-theme="dark"] .badge-Entertainment { background: #451a03; color: #fcd34d; }
+    [data-theme="dark"] .badge-Other         { background: #1f2937; color: #9ca3af; }
+
+    .empty-state { text-align: center; padding: 3rem 1rem; color: var(--text-sub); font-size: 0.95rem; }
+    .empty-state a { color: var(--accent); }
+
+    .filter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.75rem; align-items: end; }
+    .filter-grid input, .filter-grid select { margin-bottom: 0; }
+    .filter-actions { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1.5rem; }
+    .form-grid .full-width { grid-column: 1 / -1; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } nav { gap: 1rem; padding: 0 1rem; } }
+
+    .amount { font-weight: 700; font-variant-numeric: tabular-nums; }
+    .text-muted { color: var(--text-muted); font-size: 0.85rem; }
+
+    .total-row td { font-weight: 700; border-top: 2px solid var(--border); color: var(--text); font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="brand">₹ Paisa</a>
+    <a href="/">Expenses</a>
+    <a href="/add">+ Add</a>
+    <a href="/summary">Summary</a>
+    <a href="/export" class="btn btn-secondary btn-sm" style="font-size:0.8rem;">↓ Export CSV</a>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙 Dark</button>
+  </nav>
+
+  <div class="container">
+    {% if get_flashed_messages() %}
+    <div class="flash-messages">
+      {% for category, message in get_flashed_messages(with_categories=true) %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+  </div>
+
+  <script>
+    const html = document.documentElement;
+    const btn  = document.getElementById('themeBtn');
+
+    // Load saved preference
+    const saved = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', saved);
+    btn.textContent = saved === 'dark' ? '☀️ Light' : '🌙 Dark';
+
+    function toggleTheme() {
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      btn.textContent = next === 'dark' ? '☀️ Light' : '🌙 Dark';
+    }
+
+    // Press N to add a new expense (unless typing in a field)
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'n' || e.key === 'N') {
+        const tag = document.activeElement.tagName;
+        if (tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'SELECT') {
+          window.location.href = '/add';
+        }
+      }
+    });
+  </script>
+</body>
+</html>
