@@ -1,21 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>{{ action }} Expense</h1>
+<div style="max-width:600px; width:100%; margin:0 auto;">
+  <h1 style="text-align:center;">{{ action }} Expense</h1>
 
-<div class="card" style="max-width:600px;">
-  <form method="POST" action="{{ '/edit/' + expense_id|string if action == 'Edit' else '/add' }}">
-    <div class="form-grid">
+  <div class="card" style="margin:0;">
+    <form method="POST" action="{{ '/edit/' + expense_id|string if action == 'Edit' else '/add' }}">
+      <div class="form-grid">
 
       <div class="full-width">
         <label for="title">Title *</label>
         <input type="text" id="title" name="title"
-               placeholder="e.g. Lunch at café"
+               placeholder="e.g. Lunch at cafe"
                value="{{ form_data.get('title', '') if form_data else '' }}"
                maxlength="200" required>
       </div>
 
       <div>
-        <label for="amount">Amount (₹) *</label>
+        <label for="amount">Amount *</label>
         <input type="text" id="amount" name="amount"
                placeholder="0.00"
                value="{{ form_data.get('amount', '') if form_data else '' }}"
@@ -25,7 +26,7 @@
       <div>
         <label for="category">Category *</label>
         <select id="category" name="category" required>
-          <option value="">Select…</option>
+          <option value="">Select</option>
           {% for cat in categories %}
             <option value="{{ cat }}"
               {% if form_data and form_data.get('category') == cat %}selected{% endif %}>
@@ -42,27 +43,19 @@
                required>
       </div>
 
-      <div style="display:flex; align-items:center; gap:10px; padding-top:0.5rem;">
-        <input type="checkbox" id="recurring" name="recurring"
-               style="width:auto; margin:0;"
-               {% if form_data and form_data.get('recurring') in [1, '1', 'on', True] %}checked{% endif %}>
-        <label for="recurring" style="margin:0; text-transform:none; font-size:0.9rem; font-weight:500; color:var(--text);">
-          🔁 Mark as recurring
-        </label>
-      </div>
-
       <div class="full-width">
         <label for="note">Note <span style="color:var(--text-sub); font-weight:400;">(optional)</span></label>
         <textarea id="note" name="note"
-                  placeholder="Any extra details…">{{ form_data.get('note', '') if form_data else '' }}</textarea>
+                  placeholder="Any extra details">{{ form_data.get('note', '') if form_data else '' }}</textarea>
       </div>
 
-    </div>
+      </div>
 
-    <div style="display:flex; gap:0.75rem; margin-top:0.5rem;">
-      <button type="submit" class="btn btn-primary">{{ action }} Expense</button>
-      <a href="/" class="btn btn-secondary">Cancel</a>
-    </div>
-  </form>
+      <div style="display:flex; gap:0.75rem; margin-top:0.5rem;">
+        <button type="submit" class="btn btn-primary">{{ action }} Expense</button>
+        <a href="/" class="btn btn-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock %}

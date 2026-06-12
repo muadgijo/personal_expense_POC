@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Monthly Summary — {{ month_label }}</h1>
+<h1>Monthly Summary - {{ month_label }}</h1>
 
 <!-- Stats row -->
 <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:1rem; margin-bottom:1.5rem;">
 
   <div class="card" style="margin:0; text-align:center;">
     <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.4rem;">Total Spent</div>
-    <div style="font-size:1.8rem; font-weight:800;">₹{{ "%.2f"|format(total) }}</div>
+    <div style="font-size:1.8rem; font-weight:800;">{{ "%.2f"|format(total) }}</div>
   </div>
 
   <div class="card" style="margin:0; text-align:center;">
     <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.4rem;">Avg / Day</div>
-    <div style="font-size:1.8rem; font-weight:800;">₹{{ "%.0f"|format(avg_per_day) }}</div>
+    <div style="font-size:1.8rem; font-weight:800;">{{ "%.0f"|format(avg_per_day) }}</div>
     <div style="font-size:0.75rem; color:var(--text-sub);">over {{ days_so_far }} days</div>
   </div>
 
@@ -24,7 +24,7 @@
   {% if highest %}
   <div class="card" style="margin:0; text-align:center;">
     <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.4rem;">Biggest Expense</div>
-    <div style="font-size:1.4rem; font-weight:800;">₹{{ "%.2f"|format(highest.amount) }}</div>
+    <div style="font-size:1.4rem; font-weight:800;">{{ "%.2f"|format(highest.amount) }}</div>
     <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">{{ highest.title }}</div>
   </div>
   {% endif %}
@@ -47,11 +47,9 @@
       {% for row in by_category %}
       <tr>
         <td>
-          <span class="badge badge-{{ row.category }}">
-            {{ icons[row.category] }} {{ row.category }}
-          </span>
+          <span class="badge badge-{{ row.category }}">{{ row.category }}</span>
         </td>
-        <td class="amount" style="text-align:right;">₹{{ "%.2f"|format(row.total) }}</td>
+        <td class="amount" style="text-align:right;">{{ "%.2f"|format(row.total) }}</td>
         <td style="text-align:right;">
           {% if total > 0 %}
           <div style="display:flex; align-items:center; justify-content:flex-end; gap:8px;">

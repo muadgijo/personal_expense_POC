@@ -1,7 +1,7 @@
 # Expense Tracker Project Summary
 
 ## What This Project Is
-This is a small Flask-based personal expense tracker built to run locally from the workspace root. It stores expenses in SQLite, lets you add/edit/delete records, shows a filtered expense list, and provides a monthly summary by category.
+ This is a small Flask-based expense manager built to run locally from the workspace root. It stores expenses in SQLite, lets you add, edit, and delete records, shows a filtered expense list, and provides a monthly summary by category.
 
 ## Current Project Structure
 - `app.py` - main Flask application and all routes
@@ -72,7 +72,7 @@ Shared layout with:
 - top navigation
 - flash messages
 - shared styling
-- light/dark theme toggle
+- light and dark theme toggle
 - global table, form, and button styles
 
 ### `templates/index.html`

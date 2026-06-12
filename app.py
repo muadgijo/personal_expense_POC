@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for, flash, Res
 import sqlite3
 import csv
 import io
-import os
 from datetime import date, datetime
 
 app = Flask(__name__)
@@ -10,7 +9,6 @@ app.secret_key = 'expense-tracker-secret'
 
 DB_PATH = 'expenses.db'
 CATEGORIES = ['Food', 'Transport', 'Shopping', 'Bills', 'Entertainment', 'Other']
-ICONS = {'Food':'🍔','Transport':'🚗','Shopping':'🛍️','Bills':'💡','Entertainment':'🎬','Other':'📌'}
 
 
 def get_db():
@@ -109,7 +107,6 @@ def index():
     return render_template('index.html',
                            expenses=expenses,
                            categories=CATEGORIES,
-                           icons=ICONS,
                            filters={
                                'category': category,
                                'date_from': date_from,
@@ -233,7 +230,6 @@ def summary():
     return render_template('summary.html',
                            total=total,
                            by_category=by_category,
-                           icons=ICONS,
                            month_label=today.strftime('%B %Y'),
                            highest=dict(highest) if highest else None,
                            avg_per_day=avg_per_day,
@@ -263,7 +259,7 @@ def export_csv():
     return Response(
         output.getvalue(),
         mimetype='text/csv',
-        headers={'Content-Disposition': f'attachment; filename={filename}'}
+           headers={'Content-Disposition': f'attachment; filename=riafy-expense-manager-{date.today().isoformat()}.csv'}
     )
 
 
